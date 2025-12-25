@@ -1,0 +1,97 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(45deg, #7600a5, #5c00a7);
+    color: #ffffff;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 50px;
+    background: #00000050;
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 1.5rem;
+    letter-spacing: 2px;
+}
+
+header h1 a {
+    text-decoration: none;
+    color: #fff;
+    font-weight: 700;
+    background: linear-gradient(45deg, #00d2ff, #3a7bd5);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.button-p {
+    display: flex;
+    gap: 30px;
+}
+
+.button a {
+    text-decoration: none;
+    color: #aaa;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    position: relative;
+    padding: 5px 0;
+}
+
+.button a:hover {
+    color: #fff;
+}
+
+.button a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: #7600d6;
+    transition: width 0.3s ease;
+}
+
+.button a:hover::after {
+    width: 100%;
+}
+
+@media (max-width: 768px) {
+    header {
+        flex-direction: column;
+        gap: 20px;
+        padding: 20px;
+    }
+
+    .button-p {
+        gap: 15px;
+    }
+}
+
+main {
+    flex: 1;
+}
+
+footer {
+    background: #00000070;
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+}

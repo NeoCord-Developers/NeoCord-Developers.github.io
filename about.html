@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Server</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+
+        .parent {
+            margin: 0;
+            color: #dbdee1;
+            font-family: 'Hiragino Kaku Gothic ProN', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+        }
+        .label {
+            font-size: 12px;
+            font-weight: bold;
+            color: #b5bac1;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+        #preview {
+            background-color: #00000067;
+            border-radius: 8px;
+            padding: 20px;
+            min-height: 100px;
+            line-height: 1.6;
+            white-space: pre-wrap;
+        }
+        #preview h2 {
+            color: #ffffff;
+            border-bottom: 3px solid #65006e;
+            padding-bottom: 5px;
+            margin: 15px 0 10px 0;
+            font-size: 1.5em;
+        }
+        #preview h3 {
+            color: #ffffff;
+            margin: 10px 0 5px 0;
+            font-size: 1.2em;
+        }
+        #preview strong { color: #ffffff; }
+        #preview a { color: #00a8fc; text-decoration: none; }
+        #preview a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1><a href="/">NeoCord</a></h1>
+        <div class="button-p">
+            <div class="button"><a href="/">HOME</a></div>
+            <div class="button"><a href="/about">ABOUT</a></div>
+            <div class="button"><a href="/staff">STAFF</a></div>
+            <div class="button"><a href="/discord">DISCORD</a></div>
+        </div>
+    </header>
+<main>
+    
+    <div class="parent">
+        <div class="container">
+            <div id="preview">読み込み中...</div>
+        </div>
+    </div>
+</main>
+<footer>
+        <p>© 2025 NeoCord. All Rights Reserved.</p>
+    </footer>
+<script>
+    const preview = document.getElementById('preview');
+    const API_URL = 'https://shungamesite.stars.ne.jp/snkk-manager/json2.php';
+
+    function parseContent(text) {
+        // HTMLエスケープ
+        text = text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
+        // # タイトル -> <h2>
+        text = text.replace(/^#\s+(.*)$/gm, '<h2>$1</h2>');
+        
+        // ## サブタイトル -> <h3>
+        text = text.replace(/^##\s+(.*)$/gm, '<h3>$1</h3>');
+        
+        // **強調** -> <strong>
+        text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+        
+        // ++表示文字+URL+ -> <a href="URL">表示文字</a>
+        text = text.replace(/\+\+([^\+]+)\+([^\+]+)\+/g, '<a href="$2" target="_blank">$1</a>');
+
+        return text;
+    }
+
+    async function loadAboutData() {
+        try {
+            const response = await fetch(API_URL);
+            if (!response.ok) throw new Error('Network error');
+            
+            const data = await response.json();
+            if (data && data.content) {
+                preview.innerHTML = parseContent(data.content);
+            } else {
+                preview.innerHTML = 'まだ情報が設定されていません。';
+            }
+        } catch (e) {
+            console.error("Load error", e);
+            preview.innerHTML = 'データの取得に失敗しました。';
+        }
+    }
+
+    // 起動時に実行
+    loadAboutData();
+</script>
+
+</body>
+</html>
